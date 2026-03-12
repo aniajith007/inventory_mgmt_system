@@ -1,0 +1,22 @@
+{
+  "appId": "com.mobileflow.app",
+  "appName": "MobileFlow",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "launchAutoHide": false,
+      "showSpinner": false,
+      "backgroundColor": "#0f172a"
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#ffffff",
+      "overlaysWebView": false
+    },
+    "Keyboard": {
+      "resize": "body",
+      "resizeOnFullScreen": true
+    }
+  }
+}
