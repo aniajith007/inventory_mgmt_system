@@ -1,25 +1,21 @@
-import { getBatchesByPartId, getPartSummaries, locations, warehouses } from '../mock/mockData'
+import { apiRequest } from './client'
 
-const wait = (ms = 160) => new Promise((resolve) => setTimeout(resolve, ms))
-
-export async function listWarehousesApi() {
-  await wait()
-  return warehouses
+export function listWarehousesApi() {
+  return apiRequest('/master/warehouses')
 }
 
-export async function listLocationsApi(params) {
-  await wait()
-
-  if (!params?.warehouseId) return locations
-  return locations.filter((item) => item.warehouse_id === Number(params.warehouseId))
+export function listLocationsApi(params) {
+  return apiRequest('/master/locations', { query: params })
 }
 
-export async function listPartsApi(params) {
-  await wait()
-  return getPartSummaries(params)
+export function listBookNumbersApi(params) {
+  return apiRequest('/master/book-numbers', { query: params })
 }
 
-export async function listPartBatchesApi(partId) {
-  await wait()
-  return getBatchesByPartId(partId)
+export function listPartsApi(params) {
+  return apiRequest('/master/parts', { query: params })
+}
+
+export function listPartBatchesApi(partId) {
+  return apiRequest(`/master/parts/${partId}/batches`)
 }

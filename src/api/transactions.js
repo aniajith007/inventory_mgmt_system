@@ -1,43 +1,30 @@
-import { addTransaction, getPartSummaries, getTransactionById, getTransactionList } from '../mock/mockData'
+import { apiRequest } from './client'
 
-const wait = (ms = 180) => new Promise((resolve) => setTimeout(resolve, ms))
-
-export async function listTransactionsApi(params) {
-  await wait()
-  return getTransactionList(params)
+export function listTransactionsApi(params) {
+  return apiRequest('/transactions', { query: params })
 }
 
-export async function getTransactionApi(id) {
-  await wait(120)
-  const transaction = getTransactionById(id)
-
-  if (!transaction) {
-    throw new Error('Transaction not found')
-  }
-
-  return transaction
+export function getTransactionApi(id) {
+  return apiRequest(`/transactions/${id}`)
 }
 
-export async function submitTransactionApi(payload) {
-  await wait(220)
+export function submitTransactionApi(payload) {
+  return apiRequest('/transactions/submit', {
+    method: 'POST',
+    body: payload
+  })
+}
 
-  const parts = getPartSummaries({ locationId: payload.locationId })
-  const selectedPart = parts.find((item) => item.id === Number(payload.partId))
+export function updateTransactionByBuHeadApi(id, payload) {
+  return apiRequest(`/transactions/${id}/bu-update`, {
+    method: 'PATCH',
+    body: payload
+  })
+}
 
-  if (!selectedPart) {
-    throw new Error('Part not found for selected location')
-  }
-
-  const row = addTransaction(
-    {
-      ...payload,
-      partNumber: selectedPart.part_number
-    },
-    'mock.user'
-  )
-
-  return {
-    id: row.id,
-    message: 'transaction submitted'
-  }
+export function updateTransactionByAuditorApi(id, payload) {
+  return apiRequest(`/transactions/${id}/auditor-remark`, {
+    method: 'PATCH',
+    body: payload
+  })
 }
